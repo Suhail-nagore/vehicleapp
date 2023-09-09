@@ -1,0 +1,69 @@
+<%- include("header"); -%>
+
+
+
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/styles.css">
+        <title>Search Results</title>
+        <style>
+            .container1 {
+                max-width: 800px;
+                /* Adjust the max-width as needed for your content */
+                margin: 0 auto;
+                margin-top: 5rem;
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+
+            p {
+                font-size: 18px;
+                margin-bottom: 10px;
+            }
+
+
+
+
+
+            @media screen and (max-width: 768px) {
+                h1 {
+                    font-size: 20px;
+                }
+
+                p {
+                    font-size: 16px;
+                }
+
+                .call-button {
+                    padding: 3px 8px;
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="container1">
+            <h1>Search Results</h1>
+            <% if (found) { %>
+                <p><strong>Name:</strong>
+                    <%= name %>
+                </p>
+                <p><strong>Phone Number:</strong>
+                    <%= phoneNumber %>
+                        <a class="call-button" href="tel:<%= phoneNumber %>">Call Now</a>
+                </p>
+                <% } else { %>
+                    <p>No records found for this vehicle number.</p>
+                    <% } %>
+        </div>
+    </body>
+
+    </html>
