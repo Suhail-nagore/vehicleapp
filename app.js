@@ -5,12 +5,13 @@ const ejs = require('ejs');
 
 const app = express();
 
+
 app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-mongoose.connect('mongodb+srv://suhailnagore4:wBZJWpeIJ1zNVtho@cluster0.6po2xot.mongodb.net/?retryWrites=true&w=majority', {
+mongoose.connect('mongodb+srv://gozoomtechnologies:SSo5soLQtxL5g0Eq@cluster0.fg54dni.mongodb.net/?retryWrites=true&w=majority', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
@@ -32,7 +33,7 @@ const vehicleSchema = {
 const Vehicle = mongoose.model('Vehicle', vehicleSchema);
 
 app.get('/', (req, res) => {
-    res.render('index');
+    res.render('index', { successMessage: '' });
 });
 
 app.post('/insert', async (req, res) => {
@@ -59,7 +60,7 @@ app.post('/insert', async (req, res) => {
 
         await newRecord.save();
         console.log("Record saved successfully");
-        res.render("thankyou");
+        res.render('index', { successMessage: 'Your data has been saved successfully' });
     } catch (err) {
         console.error("Error saving record:", err);
         res.status(500).send("Internal Server Error");
@@ -94,3 +95,6 @@ app.post('/search', async (req, res) => {
 app.listen(3000, () => {
     console.log('Server started on port 3000');
 });
+
+
+

@@ -18,10 +18,12 @@
         <div class="container">
             <h1>Insert Data</h1>
             <form action="/insert" method="post">
-                <input type="text" name="name" placeholder="Name" required>
                 <input type="text" name="vehicleNumber" placeholder="Vehicle Number" required>
+                <input type="text" name="name" placeholder="Name" required>
                 <input type="text" name="phoneNumber" placeholder="Phone Number" required>
-                <button class="btn" type="submit">Submit</button>
+                <button class="btn" type="submit">Submit</button> <span class="success-message">
+                    <%= successMessage %>
+                </span>
             </form>
         </div>
         <div class="container">
