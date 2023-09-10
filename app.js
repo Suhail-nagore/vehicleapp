@@ -18,7 +18,15 @@ mongoose.connect('mongodb+srv://suhailnagore4:wBZJWpeIJ1zNVtho@cluster0.6po2xot.
 const vehicleSchema = {
     name: String,
     vehicleNumber: String,
-    phoneNumber: String
+    phoneNumber: String,
+    created_at: {
+        type: Date,
+        default: Date.now,
+    },
+    sequence: {
+        type: Number,
+        default: 1
+    },
 };
 
 const Vehicle = mongoose.model('Vehicle', vehicleSchema);
@@ -27,30 +35,35 @@ app.get('/', (req, res) => {
     res.render('index');
 });
 
-app.post("/insert", function (req, res) {
-  const name = req.body.name;
-  const vehicleNumber = req.body.vehicleNumber;
-  const phoneNumber = req.body.phoneNumber;
+app.post('/insert', async (req, res) => {
+    const name = req.body.name;
+    const vehicleNumber = req.body.vehicleNumber;
+    const phoneNumber = req.body.phoneNumber;
 
-  // Create a new instance of your Mongoose model
-  const newRecord = new Vehicle ({
-    name: name,
-    vehicleNumber: vehicleNumber,
-    phoneNumber: phoneNumber,
-  });
+    try {
+        // Find the latest sequence number for the same vehicle number
+        const latestRecord = await Vehicle.findOne({ vehicleNumber: vehicleNumber })
+            .sort({ sequence: -1 })
+            .exec();
 
-  // Save the new record and handle success or error using Promises
-  newRecord
-    .save()
-    .then(() => {
-      console.log("Record saved successfully");
-      // Render the thank you page
-      res.render("thankyou");
-    })
-    .catch((err) => {
-      console.error("Error saving record:", err);
-      res.status(500).send("Internal Server Error");
-    });
+        // Calculate the new sequence number
+        const newSequence = latestRecord ? latestRecord.sequence + 1 : 1;
+
+        // Create a new instance of your Mongoose model with the sequence field
+        const newRecord = new Vehicle({
+            name: name,
+            vehicleNumber: vehicleNumber,
+            phoneNumber: phoneNumber,
+            sequence: newSequence, // Set the sequence number
+        });
+
+        await newRecord.save();
+        console.log("Record saved successfully");
+        res.render("thankyou");
+    } catch (err) {
+        console.error("Error saving record:", err);
+        res.status(500).send("Internal Server Error");
+    }
 });
 
 
@@ -58,7 +71,10 @@ app.post('/search', async (req, res) => {
     const searchVehicleNumber = req.body.searchVehicleNumber;
 
     try {
-        const foundVehicle = await Vehicle.findOne({ vehicleNumber: searchVehicleNumber }).exec();
+        const foundVehicle = await Vehicle.findOne({ vehicleNumber: searchVehicleNumber })
+            .sort({ sequence: -1 }) // Sort by sequence number in descending order
+            .exec();
+
         if (foundVehicle) {
             res.render('search', {
                 found: true,
