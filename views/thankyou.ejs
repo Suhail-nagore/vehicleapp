@@ -54,6 +54,19 @@
                 color: white;
                 text-decoration: none;
             }
+
+            .simple {
+                text-decoration: none;
+                background-color: transparent;
+                color: #666;
+
+            }
+
+            .simple:hover {
+                background-color: transparent;
+                color: #007bff;
+                text-decoration: none;
+            }
         </style>
     </head>
 
@@ -64,5 +77,18 @@
             <a href="/">Back to Homepage</a>
         </div>
     </body>
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <p>&copy; <%= new Date().getFullYear() %> <a target="_blank" class="simple"
+                                href="https://www.gozoomtech.com">Gozoom
+                                Technologies</a></p>
+                    <p>This app is Deployed and Designed by Gozoom Technologies</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
 
     </html>

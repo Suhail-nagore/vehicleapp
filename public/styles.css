@@ -49,3 +49,16 @@ input[type="text"] {
     text-decoration: none;
 }
 
+
+.simple {
+    text-decoration: none;
+    background-color: transparent;
+    color: #666;
+
+}
+
+.simple:hover {
+    background-color: transparent;
+    color: #007bff;
+    text-decoration: none;
+}
